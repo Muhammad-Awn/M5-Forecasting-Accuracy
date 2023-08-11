@@ -1,4 +1,12 @@
+import pandas as pd
+
 class ZeroSales:
-    def zero_sales(data):
-        for i in data.columns:
-            print(i, ': ', data[data[i] <= 0].index, len(data[data[i] <= 0]))
+    def __init__(self, data):
+        self.data = data
+
+    def zero_sales(self):
+        df = pd.DataFrame()
+        for i in self.data.columns[:70]:
+            zero_values = pd.DataFrame(self.data[self.data[i] <= 0].index, columns=[i])
+            df = pd.concat([df, zero_values], axis=1)
+        return df
