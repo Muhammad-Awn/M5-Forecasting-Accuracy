@@ -7,4 +7,4 @@ class Lag:
     def lag_transform(self, lag, col):
         lag_data = self.df[[col]].shift(lag)
         lag_data.columns = [f"{col}_lag{lag}"]
-        return pd.concat([self.df, lag_data], axis=1)
+        return pd.concat([self.df[[col]], lag_data], axis=1)

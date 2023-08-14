@@ -6,5 +6,6 @@ class Log:
         self.data = data
 
     def log_transform(self, col):
-        log_data = pd.DataFrame(np.log(self.data[col]), columns=[f"log_{col}"])
+        log_data = np.log(self.data[[col]])
+        log_data.columns=[f"log_{col}"]
         return pd.concat([self.data, log_data], axis=1)
