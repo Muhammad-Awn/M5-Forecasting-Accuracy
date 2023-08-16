@@ -58,14 +58,16 @@ class SarimaxHyperopt:
                     algo=tpe.suggest,
                     max_evals=num_evals,
                     trials=trials)
+        self.best_params = {
+                            'p': best['p'], 'd': best['d'], 'q': best['q'],
+                            'P': best['P'], 'D': best['D'], 'Q': best['Q'],
+                            'm': best['m']
+                            }
         self.order = (int(best['p']), int(best['d']), int(best['q']))
         self.seasonal_order = (int(best['P']), int(best['D']), int(best['Q']), int(best['m']))
 
     def evaluate(self, y_pred):
         return np.mean(np.abs((self.test_data - y_pred) / self.test_data)) * 100
-
-    def best_params(self):
-        return self.order, self.seasonal_order
     
 class RFR_Optuna:
     def __init__(self, data):

@@ -10,7 +10,7 @@ class SRX:
     def train(self, params):
         self.model = SARIMAX(self.data,
                         order=(params['p'], params['d'], params['q']),
-                        seasonal_order=(params['P'], params['D'], params['Q'], params['s']),
+                        seasonal_order=(params['P'], params['D'], params['Q'], params['m']),
                         enforce_stationarity=False,
                         enforce_invertibility=False).fit()
         return self.model
