@@ -4,10 +4,11 @@ from preprocessing.FeatureEngineering import Lag
 import numpy as np
 
 class SRX:
-    def __init__(self, data):
+    def __init__(self, data, test_data):
         self.data = data
+        self.test_data = test_data
 
-    def train(self, params):
+    def fit(self, params):
         self.model = SARIMAX(self.data,
                         order=(params['p'], params['d'], params['q']),
                         seasonal_order=(params['P'], params['D'], params['Q'], params['m']),
@@ -15,15 +16,12 @@ class SRX:
                         enforce_invertibility=False).fit()
         return self.model
     
-    def predict(self, test_data):
-        self.test_data = test_data
+    def predict(self):
         if not hasattr(self, 'model'):
             raise ValueError("Model has not been trained yet. Please call train() before predict().")
-        self.pred = self.model.forecast(steps=test_data.shape[0])
-        return self.pred
-    
-    def evaluate(self):
-        return np.mean(np.abs((self.test_data - self.pred) / self.test_data)) * 100
+        self.pred = self.model.forecast(steps=self.test_data.shape[0])
+        return self.pred.values
+
     
 class RFR:
     def __init__(self, data):
@@ -62,6 +60,3 @@ class RFR:
     def predict(self):
         self.pred = self.model.predict(self.x_test)
         return self.pred
-    
-    def evaluate(self):
-        return np.mean(np.abs((self.y_test - self.pred) / self.y_test)) * 100

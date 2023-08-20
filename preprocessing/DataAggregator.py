@@ -3,7 +3,7 @@ class DataAggregator:
     def __init__(self, data):
         self.data = data
 
-    def aggregate(self, col1, col2,):
+    def aggregate(self, col1, col2):
         self.col1, self.col2 = col1, col2
         self.col = self.col1 + '_' + self.col2
         self.data[self.col] = self.data[self.col1] + '_' + self.data[self.col2]

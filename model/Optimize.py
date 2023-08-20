@@ -11,23 +11,6 @@ class SarimaxHyperopt:
         self.train_data = train_data
         self.test_data = test_data
     
-    def fit(self):
-        self.trained_model = sm.tsa.statespace.SARIMAX(
-            self.train_data,
-            order=self.order,
-            seasonal_order=self.seasonal_order,
-            enforce_stationarity=False,
-            enforce_invertibility=False
-        ).fit()
-        return self.trained_model
-    
-    def predict(self):
-        if not hasattr(self, 'trained_model'):
-            raise ValueError("Model has not been trained yet. Please call fit() before predict().")
-        
-        pred = self.trained_model.forecast(steps=self.test_data.shape[0])
-        return pred
-    
     def objective(self, params):
         order = (params['p'], params['d'], params['q'])
         seasonal_order = (params['P'], params['D'], params['Q'], params['m'])
@@ -39,7 +22,7 @@ class SarimaxHyperopt:
             enforce_invertibility=False
         ).fit()
         y_pred = model.get_prediction(start=self.test_data.index[0], end=self.test_data.index[-1], dynamic=False).predicted_mean
-        mape = self.evaluate(y_pred)
+        mape = np.mean(np.abs((self.test_data - y_pred) / self.test_data)) * 100
         return mape
 
     def hyperparameter_tune(self, num_evals=100):
@@ -66,26 +49,39 @@ class SarimaxHyperopt:
         self.order = (int(best['p']), int(best['d']), int(best['q']))
         self.seasonal_order = (int(best['P']), int(best['D']), int(best['Q']), int(best['m']))
 
-    def evaluate(self, y_pred):
-        return np.mean(np.abs((self.test_data - y_pred) / self.test_data)) * 100
     
 class RFR_Optuna:
-    def __init__(self, data):
+    def __init__(self, data, seasonal_period, test_size=0.25):
         self.data = data
 
-    def data_preprocess(self, seasonal_period):
-        self.df = self.data
+        # Data Preprocessing
         for i in range(1, seasonal_period+1):
-            self.df = Lag(self.df).lag_transform(i, self.df.columns[0])
-        self.df = self.df.dropna()
-        return self.df
+            self.data = Lag(self.data).lag_transform(i, self.data.columns[0])
+        self.data = self.data.dropna()
+
+        # Train Test Split
+        x = np.array(self.data.iloc[:,1]).reshape(-1,1)
+        for i in range(2, 8):
+            xi = (np.array(self.data.iloc[:,i])).reshape(-1,1)
+        x = np.concatenate((x, xi), axis=1)
+        y = np.array(self.data.iloc[:,0])
+        self.x_train = x[:int(len(x)*(1-test_size))]
+        self.x_test = x[int(len(x)*(1-test_size)):]
+        self.y_train = y[:int(len(y)*(1-test_size))]
+        self.y_test = y[int(len(y)*(1-test_size)):]
+
+    def data_preprocess(self, seasonal_period):
+        for i in range(1, seasonal_period+1):
+            self.data = Lag(self.data).lag_transform(i, self.data.columns[0])
+        self.data = self.data.dropna()
+        return self.data
     
     def train_test_split(self, test_size=0.25):
-        x = np.array(self.df.iloc[:,1]).reshape(-1,1)
+        x = np.array(self.data.iloc[:,1]).reshape(-1,1)
         for i in range(2, 8):
-            xi = (np.array(self.df.iloc[:,i])).reshape(-1,1)
+            xi = (np.array(self.data.iloc[:,i])).reshape(-1,1)
         x = np.concatenate((x, xi), axis=1)
-        y = np.array(self.df.iloc[:,0])
+        y = np.array(self.data.iloc[:,0])
         self.x_train = x[:int(len(x)*(1-test_size))]
         self.x_test = x[int(len(x)*(1-test_size)):]
         self.y_train = y[:int(len(y)*(1-test_size))]
@@ -111,18 +107,5 @@ class RFR_Optuna:
         study = optuna.create_study(direction='minimize')
         study.optimize(self.objective, n_trials=num_evals)
         trial = study.best_trial
-        self.params = trial.params
+        self.best_params = trial.params
         self.mape = trial.value
-
-    def fit(self):
-        self.reg = RandomForestRegressor(n_estimators=self.params['n_estimators'], max_depth=self.params['max_depth'], max_features=self.params['max_features'], bootstrap=self.params['bootstrap'],
-                               min_samples_leaf=self.params['min_samples_leaf'], min_samples_split=self.params['min_samples_split'])
-        self.reg.fit(self.x_train, self.y_train)
-        return self.reg
-    
-    def predict(self):
-        self.pred = self.reg.predict(self.x_test)
-        return self.pred
-    
-    def evaluate(self):
-        return np.mean(np.abs((self.y_test - self.pred) / self.y_test)) * 100

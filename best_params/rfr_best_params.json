@@ -1,0 +1,162 @@
+{
+    "CA_1_FOODS_1": {
+        "n_estimators": 78,
+        "max_depth": 28,
+        "max_features": "sqrt",
+        "min_samples_leaf": 26,
+        "min_samples_split": 20,
+        "bootstrap": true
+    },
+    "CA_1_FOODS_2": {
+        "n_estimators": 128,
+        "max_depth": 38,
+        "max_features": "log2",
+        "min_samples_leaf": 18,
+        "min_samples_split": 30,
+        "bootstrap": true
+    },
+    "CA_1_FOODS_3": {
+        "n_estimators": 12,
+        "max_depth": 23,
+        "max_features": "sqrt",
+        "min_samples_leaf": 26,
+        "min_samples_split": 14,
+        "bootstrap": false
+    },
+    "CA_1_HOBBIES_1": {
+        "n_estimators": 24,
+        "max_depth": 13,
+        "max_features": "log2",
+        "min_samples_leaf": 15,
+        "min_samples_split": 6,
+        "bootstrap": true
+    },
+    "CA_1_HOBBIES_2": {
+        "n_estimators": 80,
+        "max_depth": 6,
+        "max_features": "sqrt",
+        "min_samples_leaf": 23,
+        "min_samples_split": 14,
+        "bootstrap": false
+    },
+    "CA_1_HOUSEHOLD_1": {
+        "n_estimators": 86,
+        "max_depth": 42,
+        "max_features": "log2",
+        "min_samples_leaf": 8,
+        "min_samples_split": 26,
+        "bootstrap": true
+    },
+    "CA_1_HOUSEHOLD_2": {
+        "n_estimators": 31,
+        "max_depth": 16,
+        "max_features": "log2",
+        "min_samples_leaf": 26,
+        "min_samples_split": 6,
+        "bootstrap": false
+    },
+    "CA_2_FOODS_1": {
+        "n_estimators": 146,
+        "max_depth": 33,
+        "max_features": "sqrt",
+        "min_samples_leaf": 6,
+        "min_samples_split": 22,
+        "bootstrap": true
+    },
+    "CA_2_FOODS_2": {
+        "n_estimators": 20,
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 19,
+        "min_samples_split": 19,
+        "bootstrap": true
+    },
+    "CA_2_FOODS_3": {
+        "n_estimators": 82,
+        "max_depth": 38,
+        "max_features": "log2",
+        "min_samples_leaf": 24,
+        "min_samples_split": 26,
+        "bootstrap": false
+    },
+    "CA_2_HOBBIES_1": {
+        "n_estimators": 136,
+        "max_depth": 15,
+        "max_features": "log2",
+        "min_samples_leaf": 22,
+        "min_samples_split": 25,
+        "bootstrap": true
+    },
+    "CA_2_HOBBIES_2": {
+        "n_estimators": 128,
+        "max_depth": 23,
+        "max_features": "log2",
+        "min_samples_leaf": 13,
+        "min_samples_split": 18,
+        "bootstrap": false
+    },
+    "CA_2_HOUSEHOLD_1": {
+        "n_estimators": 64,
+        "max_depth": 44,
+        "max_features": "log2",
+        "min_samples_leaf": 12,
+        "min_samples_split": 9,
+        "bootstrap": true
+    },
+    "CA_2_HOUSEHOLD_2": {
+        "n_estimators": 124,
+        "max_depth": 28,
+        "max_features": "log2",
+        "min_samples_leaf": 29,
+        "min_samples_split": 26,
+        "bootstrap": false
+    },
+    "CA_3_FOODS_1": {
+        "n_estimators": 28,
+        "max_depth": 28,
+        "max_features": "sqrt",
+        "min_samples_leaf": 23,
+        "min_samples_split": 3,
+        "bootstrap": true
+    },
+    "CA_3_FOODS_2": {
+        "n_estimators": 71,
+        "max_depth": 46,
+        "max_features": "log2",
+        "min_samples_leaf": 8,
+        "min_samples_split": 30,
+        "bootstrap": false
+    },
+    "CA_3_FOODS_3": {
+        "n_estimators": 99,
+        "max_depth": 13,
+        "max_features": "log2",
+        "min_samples_leaf": 27,
+        "min_samples_split": 20,
+        "bootstrap": false
+    },
+    "CA_3_HOBBIES_1": {
+        "n_estimators": 72,
+        "max_depth": 2,
+        "max_features": "log2",
+        "min_samples_leaf": 13,
+        "min_samples_split": 7,
+        "bootstrap": false
+    },
+    "CA_3_HOBBIES_2": {
+        "n_estimators": 71,
+        "max_depth": 25,
+        "max_features": "sqrt",
+        "min_samples_leaf": 19,
+        "min_samples_split": 4,
+        "bootstrap": true
+    },
+    "CA_3_HOUSEHOLD_1": {
+        "n_estimators": 89,
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "min_samples_leaf": 19,
+        "min_samples_split": 27,
+        "bootstrap": true
+    }
+}
